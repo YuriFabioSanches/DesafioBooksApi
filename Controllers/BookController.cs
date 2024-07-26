@@ -7,17 +7,14 @@ namespace DesafioBooksApi.Controllers;
 
 public class BookController : DesafioBooksApiBaseController
 {
-    private static List<BookEntitie> BookList = new List<BookEntitie>();
+    private static List<BookEntitie> BookList = [];
 
     [HttpGet]
-    [ProducesResponseType (typeof (List<BookEntitie>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<BookEntitie>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public IActionResult GetAll()
     {
-        if (BookList.Count > 0)
-            return Ok(BookList);
-
-        return NoContent();
+        return BookList.Count > 0 ? Ok(BookList) : NoContent();
     }
 
     [HttpPost]
@@ -35,7 +32,7 @@ public class BookController : DesafioBooksApiBaseController
             Id = Guid.NewGuid(),
             Title = request.Title,
             Author = request.Author,
-            Genre = request.Genre,
+            GenreType = request.GenreType,
             Price = request.Price,
             StockCount = request.StockCount
         };
@@ -58,7 +55,7 @@ public class BookController : DesafioBooksApiBaseController
             {
                 book.Title = request.Title == "" ? book.Title : request.Title;
                 book.Author = request.Author == "" ? book.Author : request.Author;
-                book.Genre = request.Genre;
+                book.GenreType = request.GenreType;
                 book.Price = request.Price < 0 ? book.Price : request.Price;
                 book.StockCount = request.StockCount < 0 ? 0 : request.StockCount;
                 return NoContent();
